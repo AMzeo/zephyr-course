@@ -2,7 +2,11 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
+#if defined(CONFIG_LED_SLEEP_5000)
+#define SLEEP_TIME_MS 5000
+#else
 #define SLEEP_TIME_MS 1000
+#endif
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED_NODE DT_ALIAS(led0)

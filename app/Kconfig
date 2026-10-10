@@ -1,0 +1,61 @@
+menuconfig LED_SUBSYSTEM
+    bool "LED Subsystem"
+    default y
+    help
+      Enable the LED subsystem.
+
+if LED_SUBSYSTEM
+
+choice LED_SLEEP_TIME
+    prompt "Sleep time (ms)"
+    default LED_SLEEP_1000
+
+config LED_SLEEP_1000
+    bool "1000"
+
+config LED_SLEEP_5000
+    bool "5000"
+
+endchoice
+
+menuconfig LED_ADVANCED
+    bool "Advanced LED settings"
+    default n
+    help
+      Enable advanced LED configuration options.
+
+if LED_ADVANCED
+
+config LED_BRIGHTNESS
+    int "Brightness (%)"
+    range 0 100
+    default 100
+
+config LED_FADE_DURATION
+    int "Fade duration (ms)"
+    range 0 10000
+    default 500
+
+menuconfig LED_EXPERT
+    bool "Expert settings"
+    default n
+    help
+      Enable expert LED configuration options.
+
+if LED_EXPERT
+
+config LED_EXPERT_DIAGNOSTICS
+    bool "Enable diagnostics"
+    default n
+
+config LED_EXPERT_FORCE
+    bool "Force LED update"
+    default n
+
+endif # LED_EXPERT
+
+endif # LED_ADVANCED
+
+endif # LED_SUBSYSTEM
+
+source "Kconfig.zephyr"
