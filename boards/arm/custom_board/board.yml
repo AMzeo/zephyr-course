@@ -1,0 +1,6 @@
+board:
+  name: custom_board
+  full_name: custom_board
+  vendor: iomico
+  socs:
+    - name: stm32f767xx
