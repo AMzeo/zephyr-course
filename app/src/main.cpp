@@ -5,7 +5,7 @@
 #define SLEEP_TIME_MS CONFIG_APP_HEARTBEAT_PERIOD_MS
 
 /* The devicetree node identifier for the "led0" alias. */
-#define LED_NODE DT_ALIAS(app_led)
+#define LED_NODE DT_ALIAS(app_led1)
 
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED_NODE, gpios);
 
@@ -13,18 +13,21 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 int main(void)
 {
-    bool led_state = true;
+    printk("Application main started\n");
+    printk("LED device ready: %d\n", gpio_is_ready_dt(&led));
 
-    if (!gpio_is_ready_dt(&led)) return 0;
+    int ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
+    printk("LED configure result: %d\n", ret);
 
-    if (gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE) < 0) return 0;
+    if (ret < 0) {
+        return 0;
+    }
 
     while (1) {
-        if (gpio_pin_toggle_dt(&led) < 0) return 0;
-
-        led_state = !led_state;
-        LOG_INF("LED state: %s", led_state ? "ON" : "OFF");
+        ret = gpio_pin_toggle_dt(&led);
+        printk("LED toggle result: %d\n", ret);
         k_msleep(SLEEP_TIME_MS);
     }
+
     return 0;
 }
