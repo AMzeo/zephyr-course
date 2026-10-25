@@ -5,3 +5,10 @@
         app-led2 = &red_led;
     };
 };
+
+/ {
+    our_driver0: our_driver {
+        compatible = "our,driver";
+        status = "okay";
+    };
+};

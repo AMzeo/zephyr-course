@@ -66,3 +66,4 @@ config APP_HEARTBEAT_PERIOD_MS
       Time in milliseconds between heartbeat LED toggles.
 
 source "Kconfig.zephyr"
+rsource "drivers/our_driver/Kconfig"
