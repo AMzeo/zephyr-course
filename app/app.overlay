@@ -12,3 +12,10 @@
         status = "okay";
     };
 };
+
+/ {
+    our_custom0: our_custom {
+    compatible = "our,custom";
+    status = "okay";
+    };
+};

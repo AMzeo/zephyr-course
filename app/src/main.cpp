@@ -2,6 +2,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/drivers/sensor.h>
+#include "../drivers/our_driver/our_driver.h"
 
 #define SLEEP_TIME_MS CONFIG_APP_HEARTBEAT_PERIOD_MS
 
@@ -14,7 +15,7 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 namespace {
     void test() 
-    {
+{
         const struct device *driver =
         DEVICE_DT_GET(DT_NODELABEL(our_driver0));
 
@@ -33,9 +34,25 @@ namespace {
     ret = sensor_channel_get(
         driver, SENSOR_CHAN_AMBIENT_TEMP, &val);
     LOG_INF("Channel ret: %d", ret);
-    }
-}
 
+    const struct device *custom =
+    DEVICE_DT_GET(DT_NODELABEL(our_custom0));
+
+    if (!device_is_ready(custom)) {
+    LOG_ERR("Custom API device is not ready");
+    return;
+    }
+
+    int count = our_custom_increment_count(custom);
+    printk("Custom API count: %d\n", count);
+
+    count = our_custom_increment_count(custom);
+    printk("Custom API count: %d\n", count);
+
+    count = our_custom_increment_count(custom);
+    printk("Custom API count: %d\n", count);
+}
+}
 int main(void)
 {
     test();
